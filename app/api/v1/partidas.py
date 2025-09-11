@@ -1,9 +1,18 @@
 from fastapi import APIRouter
+from typing import Optional
 
 router = APIRouter()
 
 @router.get("/")
 async def read_partidas():
+    return "Lista de todas as partidas"
+
+@router.get("/")
+async def read_partidas(genero: Optional[str] = None, categoria: Optional[str] = None):
+    if genero:
+        return f"Lista de partidas do gênero: {genero}"
+    if categoria:
+        return f"Lista de partidas da categoria: {categoria}"
     return "Lista de todas as partidas"
 
 @router.get("/{partida_id}")
