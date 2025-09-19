@@ -29,6 +29,7 @@ async def get_jogadores(partida_id: int):
 async def get_avaliacoes(partida_id: int):
     return f"Lista de avaliações para a partida com ID {partida_id}"
 
+
 @router.post("/")
 async def create_partida():
     return "Partida criada com sucesso"

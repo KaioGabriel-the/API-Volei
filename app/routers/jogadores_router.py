@@ -1,5 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from typing import Optional
+from schemas.jogadores.jogador import JogadorCreate, JogadorResponse
+from services.JagadorService import JogadorService
 
 router = APIRouter()
 
@@ -23,9 +25,12 @@ async def get_avaliacoes(id_jogador: int):
     return f"Lista de avaliações para o jogador com ID {id_jogador}"
 
 
-@router.post("/")
-async def create_jogador():
-    return "Jogador criado com sucesso"
+@router.post("/", response_model=JogadorResponse,  status_code=201)
+async def create_jogador(jogador: JogadorCreate) -> JogadorResponse:
+    try:
+        return JogadorService.create_jogador(jogador)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.post("/{id_jogador}/avaliacoes")
