@@ -6,4 +6,3 @@ app = FastAPI()
 
 app.include_router(jogadores_router, prefix="/jogadores", tags=["jogadores"])
 app.include_router(partidas_router, prefix="/partidas", tags=["partidas"])
-
