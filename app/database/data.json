@@ -1,0 +1,22 @@
+{
+    "jogadores": [
+        {
+            "id": 1,
+            "nome": "Carlos",
+            "categoria": "Profissional",
+            "genero": "Masculino",
+            "idade": 30,
+            "posicao": "Ponteiro",
+            "email": "carlos@email.com"
+        },
+        {
+            "id": 2,
+            "nome": "Kaio",
+            "categoria": "Profissional",
+            "genero": "Masculino",
+            "idade": 25,
+            "posicao": "Levantador",
+            "email": "kaio@email.com"
+        }
+    ]
+}

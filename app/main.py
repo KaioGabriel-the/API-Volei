@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from routers.jogadores_router import router as jogadores_router
-from routers.partidas_router import router as partidas_router
-from routers.convites_router import router as convites_router
-from routers.auth_router import router as auth_router
+from app.routers.jogadores_router import router as jogadores_router
+from app.routers.partidas_router import router as partidas_router
+from app.routers.convites_router import router as convites_router
+from app.routers.auth_router import router as auth_router
 
 app = FastAPI()
 
