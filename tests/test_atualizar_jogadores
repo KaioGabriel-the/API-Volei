@@ -1,0 +1,74 @@
+from fastapi.testclient import TestClient
+from main import app 
+from app.db.jogadores import DADOS_JOGADORES 
+import pytest 
+
+@pytest.fixture(autouse=True)
+def cleanup_data():
+    initial_data = DADOS_JOGADORES.copy() 
+    
+    yield 
+    DADOS_JOGADORES.clear()
+    DADOS_JOGADORES.extend(initial_data)
+
+
+client = TestClient(app)
+
+DADOS_ATUALIZACAO = {
+    "nome": "Leila Pires",
+    "idade": 50,
+    "genero": "FEMININO",
+    "posicao": "PONTEIRO",
+    "nivel": "EXPERIENTE"
+}
+
+def test_atualizar_jogador_sucesso():
+    id_a_atualizar = 1 
+    
+    response = client.put(f"/jogadores/{id_a_atualizar}", json=DADOS_ATUALIZACAO)
+    
+    assert response.status_code == 200
+    
+    data = response.json()
+    
+    assert data["id"] == id_a_atualizar
+    assert data["nome"] == "Leila Pires"
+    assert data["posicao"] == "PONTEIRO"
+    
+    jogador_interno = next((item for item in DADOS_JOGADORES if item["id"] == id_a_atualizar), None)
+    assert jogador_interno is not None
+    assert jogador_interno["posicao"] == "PONTEIRO"
+    
+
+def test_atualizar_jogador_nao_encontrado():
+    id_inexistente = 999 
+    tamanho_antes = len(DADOS_JOGADORES)
+    
+    response = client.put(f"/jogadores/{id_inexistente}", json=DADOS_ATUALIZACAO)
+    
+    assert response.status_code == 404
+    
+    data = response.json()
+    
+    assert "detail" in data
+    assert f"Jogador com id {id_inexistente} não encontrado para atualização." in data["detail"]
+    
+    assert len(DADOS_JOGADORES) == tamanho_antes
+    
+    
+def test_atualizar_jogador_falha_validacao_tipo():
+    id_a_atualizar = 1
+    dados_invalidos = DADOS_ATUALIZACAO.copy()
+    dados_invalidos["idade"] = "cinquenta" 
+
+    response = client.put(f"/jogadores/{id_a_atualizar}", json=dados_invalidos)
+    
+    assert response.status_code == 422
+    
+    data = response.json()
+    
+    assert "detail" in data
+    
+    erro_idade = next((err for err in data["detail"] if err["loc"] == ["body", "idade"]), None)
+    assert erro_idade is not None
+    assert "Input should be a valid integer" in erro_idade["msg"] or "valid integer" in erro_idade["msg"]

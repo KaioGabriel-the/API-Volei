@@ -1,0 +1,3 @@
+@echo off
+echo Iniciando a API FastAPI em modo de desenvolvimento...
+uvicorn main:app --reload

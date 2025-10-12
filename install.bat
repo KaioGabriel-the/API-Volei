@@ -1,0 +1,3 @@
+@echo off
+echo Instalando dependências do projeto...
+pip install -r requirements.txt
