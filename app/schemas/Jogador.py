@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from app.enums.jogador import Genero, Nivel, Posicao
 
 class JogadorBase(BaseModel):
@@ -23,5 +23,4 @@ class JogadorBase(BaseModel):
 class Jogador(JogadorBase):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

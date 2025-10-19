@@ -4,12 +4,16 @@ from app.handlers.JogadorHandler import JogadorHandler
 
 router = APIRouter()
 
-@router.get("/",status_code=200, tags=["Lista"])
+@router.get("/",status_code=200)
 async def jogadores():
-    return await JogadorHandler.listar()
+    list_jogador = await JogadorHandler.listar()
+    if list_jogador is None:
+        return []
+    
+    return list_jogador
 
 
-@router.get("/{id_jogador}",status_code=200, tags=["Jogador"])
+@router.get("/{id_jogador}",status_code=200)
 async def jogador(id_jogador : int):
     jogador = await JogadorHandler.buscar(id_jogador)
 
@@ -22,7 +26,7 @@ async def jogador(id_jogador : int):
     return jogador
 
 
-@router.post("/", status_code=201, response_model= Jogador.Jogador, tags=["Jogador"])
+@router.post("/", status_code=201, response_model= Jogador.Jogador)
 async def criar_jogador(novo_jogador: Jogador.JogadorBase):
     dados_jogador = await JogadorHandler.cadastrar(novo_jogador)
 
@@ -35,7 +39,7 @@ async def criar_jogador(novo_jogador: Jogador.JogadorBase):
     return dados_jogador
 
 
-@router.delete("/{id_jogador}", status_code=status.HTTP_204_NO_CONTENT, tags=["Jogador"])
+@router.delete("/{id_jogador}", status_code=status.HTTP_204_NO_CONTENT)
 async def deletar_jogador(id_jogador: int):
     deletado = await JogadorHandler.deletar(id_jogador)
 
@@ -51,7 +55,6 @@ async def deletar_jogador(id_jogador: int):
 @router.put(
     "/{id_jogador}", 
     status_code=status.HTTP_200_OK, 
-    tags=["Jogador"],
     response_model=Jogador.Jogador 
 )
 async def atualizar_jogador(id_jogador: int, jogador_data: Jogador.JogadorBase):

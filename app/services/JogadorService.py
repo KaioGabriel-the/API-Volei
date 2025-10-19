@@ -4,7 +4,7 @@ from app.repository.JogadorRepository import JogadorRepository
 
 class JogadorService():
     @staticmethod
-    def listar_jogadores() -> List[Jogador]:
+    def listar_jogadores() -> Optional[List[Jogador]]:
         jogadores_dados = JogadorRepository.get_all()
 
         jogadores_formatados = [Jogador(**i) for i in jogadores_dados]
