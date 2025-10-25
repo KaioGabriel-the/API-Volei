@@ -8,6 +8,9 @@ class ArenaService:
     def listar_arenas() -> Optional[List[Arena]]:
         dados_arena = ArenaRepository.get_all()
 
+        if dados_arena is None:
+            return None
+
         arenas_formatadas = [Arena(**i) for i in dados_arena]
 
         return arenas_formatadas

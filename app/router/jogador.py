@@ -1,14 +1,15 @@
 from fastapi import APIRouter, status, HTTPException
+from typing import Optional, List
 from app.schemas import Jogador
 from app.handlers.JogadorHandler import JogadorHandler
 
 router = APIRouter()
 
 @router.get("/",status_code=200)
-async def jogadores():
+async def jogadores() -> Optional[List[Jogador.Jogador]]:
     list_jogador = await JogadorHandler.listar()
     if list_jogador is None:
-        return []
+        return None
     
     return list_jogador
 

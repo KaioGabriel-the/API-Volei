@@ -1,4 +1,6 @@
-DADOS_JOGADORES = [
+from typing import Dict, List
+
+DADOS_JOGADORES: List[Dict] = [
     { "id": 0,
       "nome": "Ana Lúcia Gomes",
       "idade": 24,

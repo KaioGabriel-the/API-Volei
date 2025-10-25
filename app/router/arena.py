@@ -10,7 +10,6 @@ async def arenas() -> List[Arena]:
     list_arena = await ArenaHandler.listar()
     if list_arena is None:
         return []
-
     return list_arena
 
 
@@ -29,15 +28,15 @@ async def arena(id_arena: int) -> Arena:
 
 @router.post("/", status_code=201, response_model=Arena)
 async def cadastrar_arena(nova_arena:ArenaBase):
-    dados_arena = await ArenaHandler.cadastrar(nova_arena)
+    arena_cadastrada = await ArenaHandler.cadastrar(nova_arena)
 
-    if dados_arena is HTTPException:
+    if arena_cadastrada is HTTPException:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=f"Dados incompletos da arena. Não foi possível realizar o cadastrato."
         )
     
-    return dados_arena
+    return arena_cadastrada
 
 
 @router.delete("/{id_arena}", status_code=status.HTTP_204_NO_CONTENT)
