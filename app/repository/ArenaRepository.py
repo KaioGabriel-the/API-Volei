@@ -10,18 +10,20 @@ def _get_next_id() -> int:
 
 
 class ArenaRepository:
-
+    @staticmethod
     def get_all() -> List[Dict]:
         return arenas.DADOS_ARENAS.copy()
     
 
+    @staticmethod
     def get_by_id(id_arena) -> Optional [Dict]:
         dados = arenas.DADOS_ARENAS.copy()
         arena = next((item  for item in dados if item["id"] == id_arena), None)
 
         return arena
+    
 
-
+    @staticmethod
     def create(arena_nova: Dict[str, any]) -> Optional[Dict]:
         novo_id = _get_next_id()
         nova_arena = arena_nova.copy()
@@ -29,7 +31,8 @@ class ArenaRepository:
         arenas.DADOS_ARENAS.append(nova_arena)
         return nova_arena
 
-    
+
+    @staticmethod
     def delete(id_arena: int) -> bool:
         dados = arenas.DADOS_ARENAS
 
@@ -59,5 +62,3 @@ class ArenaRepository:
         except StopIteration:
             return None
         
-        
-
